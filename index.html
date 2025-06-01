@@ -1,235 +1,655 @@
-<!--
-	此示例下载自 https://echarts.apache.org/examples/zh/editor.html?c=area-stack-gradient
--->
 <!DOCTYPE html>
-<html lang="en" style="height: 100%">
+<html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
-</head>
-<body style="height: 100%; margin: 0">
-  <div id="container" style="height: 100%"></div>
-
-  
-  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
-  
-  <!-- Uncomment this line if you want to dataTool extension
-  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5/dist/extension/dataTool.min.js"></script>
-  -->
-  <!-- Uncomment this line if you want to use gl extension
-  <script type="text/javascript" src="https://echarts.apache.org/zh/js/vendors/echarts-gl/dist/echarts-gl.min.js"></script>
-  -->
-  <!-- Uncomment this line if you want to echarts-stat extension
-  <script type="text/javascript" src="https://echarts.apache.org/zh/js/vendors/echarts-stat/dist/ecStat.min.js"></script>
-  -->
-  <!-- Uncomment this line if you want to echarts-graph-modularity extension
-  <script type="text/javascript" src="https://echarts.apache.org/zh/js/vendors/echarts-graph-modularity/dist/echarts-graph-modularity.min.js"></script>
-  -->
-  <!-- Uncomment this line if you want to use map
-  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@4.9.0/map/js/world.js"></script>
-  -->
-  <!-- Uncomment these two lines if you want to use bmap extension
-  <script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=YOUR_API_KEY"></script>
-  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5/dist/extension/bmap.min.js"></script>
-  -->
-
-  <script type="text/javascript">
-    var dom = document.getElementById('container');
-    var myChart = echarts.init(dom, null, {
-      renderer: 'canvas',
-      useDirtyRect: false
-    });
-    var app = {};
-    
-    var option;
-
-    option = {
-  color: ['#80FFA5', '#00DDFF', '#37A2FF', '#FF0087', '#FFBF00'],
-  title: {
-    text: 'Gradient Stacked Area Chart'
-  },
-  tooltip: {
-    trigger: 'axis',
-    axisPointer: {
-      type: 'cross',
-      label: {
-        backgroundColor: '#6a7985'
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>中国与新亚欧大陆桥国家进出口总额趋势</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#3b82f6',
+            secondary: '#64748b',
+            accent: '#06b6d4',
+            neutral: '#f8fafc',
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+        },
       }
     }
-  },
-  legend: {
-    data: ['Line 1', 'Line 2', 'Line 3', 'Line 4', 'Line 5']
-  },
-  toolbox: {
-    feature: {
-      saveAsImage: {}
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .card-shadow {
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      }
+      .hover-scale {
+        transition: transform 0.3s ease;
+      }
+      .hover-scale:hover {
+        transform: scale(1.02);
+      }
     }
-  },
-  grid: {
-    left: '3%',
-    right: '4%',
-    bottom: '3%',
-    containLabel: true
-  },
-  xAxis: [
-    {
-      type: 'category',
-      boundaryGap: false,
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-    }
-  ],
-  yAxis: [
-    {
-      type: 'value'
-    }
-  ],
-  series: [
-    {
-      name: 'Line 1',
-      type: 'line',
-      stack: 'Total',
-      smooth: true,
-      lineStyle: {
-        width: 0
-      },
-      showSymbol: false,
-      areaStyle: {
-        opacity: 0.8,
-        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-          {
-            offset: 0,
-            color: 'rgb(128, 255, 165)'
-          },
-          {
-            offset: 1,
-            color: 'rgb(1, 191, 236)'
-          }
-        ])
-      },
-      emphasis: {
-        focus: 'series'
-      },
-      data: [140, 232, 101, 264, 90, 340, 250]
-    },
-    {
-      name: 'Line 2',
-      type: 'line',
-      stack: 'Total',
-      smooth: true,
-      lineStyle: {
-        width: 0
-      },
-      showSymbol: false,
-      areaStyle: {
-        opacity: 0.8,
-        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-          {
-            offset: 0,
-            color: 'rgb(0, 221, 255)'
-          },
-          {
-            offset: 1,
-            color: 'rgb(77, 119, 255)'
-          }
-        ])
-      },
-      emphasis: {
-        focus: 'series'
-      },
-      data: [120, 282, 111, 234, 220, 340, 310]
-    },
-    {
-      name: 'Line 3',
-      type: 'line',
-      stack: 'Total',
-      smooth: true,
-      lineStyle: {
-        width: 0
-      },
-      showSymbol: false,
-      areaStyle: {
-        opacity: 0.8,
-        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-          {
-            offset: 0,
-            color: 'rgb(55, 162, 255)'
-          },
-          {
-            offset: 1,
-            color: 'rgb(116, 21, 219)'
-          }
-        ])
-      },
-      emphasis: {
-        focus: 'series'
-      },
-      data: [320, 132, 201, 334, 190, 130, 220]
-    },
-    {
-      name: 'Line 4',
-      type: 'line',
-      stack: 'Total',
-      smooth: true,
-      lineStyle: {
-        width: 0
-      },
-      showSymbol: false,
-      areaStyle: {
-        opacity: 0.8,
-        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-          {
-            offset: 0,
-            color: 'rgb(255, 0, 135)'
-          },
-          {
-            offset: 1,
-            color: 'rgb(135, 0, 157)'
-          }
-        ])
-      },
-      emphasis: {
-        focus: 'series'
-      },
-      data: [220, 402, 231, 134, 190, 230, 120]
-    },
-    {
-      name: 'Line 5',
-      type: 'line',
-      stack: 'Total',
-      smooth: true,
-      lineStyle: {
-        width: 0
-      },
-      showSymbol: false,
-      label: {
-        show: true,
-        position: 'top'
-      },
-      areaStyle: {
-        opacity: 0.8,
-        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-          {
-            offset: 0,
-            color: 'rgb(255, 191, 0)'
-          },
-          {
-            offset: 1,
-            color: 'rgb(224, 62, 76)'
-          }
-        ])
-      },
-      emphasis: {
-        focus: 'series'
-      },
-      data: [220, 302, 181, 234, 210, 290, 150]
-    }
-  ]
-};
+  </style>
+</head>
+<body class="bg-gray-50 font-sans">
+  <div class="container mx-auto px-4 py-8">
+    <header class="text-center mb-10">
+      <h1 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold text-gray-800 mb-4">
+        2010-2023年中国与新亚欧大陆桥国家进出口总额趋势
+      </h1>
+      <p class="text-gray-600 max-w-3xl mx-auto">
+        本图表展示了中国与新亚欧大陆桥部分国家在2010年至2023年间的进出口贸易总额变化趋势（单位：万美元）
+      </p>
+    </header>
+    
+    <div class="bg-white rounded-xl p-6 card-shadow hover-scale mb-8">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+        <div>
+          <h2 class="text-xl font-semibold text-gray-800">进出口总额趋势图</h2>
+          <p class="text-gray-500 text-sm mt-1">数据来源：中国海关总署</p>
+        </div>
+        <div class="mt-4 md:mt-0 flex flex-wrap gap-2">
+          <button id="btn-all" class="px-4 py-2 bg-primary text-white rounded-lg shadow hover:bg-primary/90 transition">
+            显示全部国家
+          </button>
+          <div class="relative inline-block">
+            <button id="btn-filter" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg shadow hover:bg-gray-300 transition flex items-center">
+              <i class="fa fa-filter mr-2"></i> 筛选国家
+              <i class="fa fa-caret-down ml-2"></i>
+            </button>
+            <div id="filter-dropdown" class="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl z-10 hidden">
+              <div class="p-4">
+                <p class="font-medium text-gray-700 mb-2">选择国家</p>
+                <div class="space-y-2" id="country-filters">
+                  <!-- 国家筛选选项将通过JavaScript动态生成 -->
+                </div>
+                <button id="apply-filter" class="w-full mt-4 px-4 py-2 bg-primary text-white rounded-lg shadow hover:bg-primary/90 transition">
+                  应用筛选
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 图表容器 -->
+      <div class="w-full h-[600px]" id="tradeChart"></div>
+    </div>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <!-- 奥地利卡片 -->
+      <div class="bg-white rounded-xl p-6 card-shadow hover-scale">
+        <div class="flex justify-between items-start mb-4">
+          <div>
+            <h3 class="font-semibold text-gray-800">奥地利</h3>
+            <p class="text-gray-500 text-sm">2023年总额: 125.46亿美元</p>
+          </div>
+          <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
+            <i class="fa fa-line-chart text-blue-600"></i>
+          </div>
+        </div>
+        <div class="h-36" id="austriaChart"></div>
+      </div>
+      
+      <!-- 白俄罗斯卡片 -->
+      <div class="bg-white rounded-xl p-6 card-shadow hover-scale">
+        <div class="flex justify-between items-start mb-4">
+          <div>
+            <h3 class="font-semibold text-gray-800">白俄罗斯</h3>
+            <p class="text-gray-500 text-sm">2023年总额: 84.42亿美元</p>
+          </div>
+          <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
+            <i class="fa fa-line-chart text-green-600"></i>
+          </div>
+        </div>
+        <div class="h-36" id="belarusChart"></div>
+      </div>
+      
+      <!-- 波兰卡片 -->
+      <div class="bg-white rounded-xl p-6 card-shadow hover-scale">
+        <div class="flex justify-between items-start mb-4">
+          <div>
+            <h3 class="font-semibold text-gray-800">波兰</h3>
+            <p class="text-gray-500 text-sm">2023年总额: 420.22亿美元</p>
+          </div>
+          <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center">
+            <i class="fa fa-line-chart text-purple-600"></i>
+          </div>
+        </div>
+        <div class="h-36" id="polandChart"></div>
+      </div>
+      
+      <!-- 意大利卡片 -->
+      <div class="bg-white rounded-xl p-6 card-shadow hover-scale">
+        <div class="flex justify-between items-start mb-4">
+          <div>
+            <h3 class="font-semibold text-gray-800">意大利</h3>
+            <p class="text-gray-500 text-sm">2023年总额: 717.45亿美元</p>
+          </div>
+          <div class="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center">
+            <i class="fa fa-line-chart text-orange-600"></i>
+          </div>
+        </div>
+        <div class="h-36" id="italyChart"></div>
+      </div>
+    </div>
+    
+    <div class="bg-white rounded-xl p-6 card-shadow hover-scale">
+      <h2 class="text-xl font-semibold text-gray-800 mb-4">数据概览</h2>
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">国家</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">2010年</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">2015年</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">2020年</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">2023年</th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">增长(2010-2023)</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200" id="data-table">
+            <!-- 数据表格内容将通过JavaScript动态生成 -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+    <footer class="mt-12 text-center text-gray-500 text-sm">
+      <p>© 2025 中国国际贸易研究中心 | 数据仅供参考</p>
+    </footer>
+  </div>
 
-    if (option && typeof option === 'object') {
-      myChart.setOption(option);
-    }
+  <script>
+    // 处理原始数据
+    const rawData = `奥地利	608394.1
+奥地利	698817.8571
+奥地利	676391.2
+奥地利	706787.7
+奥地利	824791.6429
+奥地利	746577.1
+奥地利	726941.7
+奥地利	839304
+奥地利	975082.1
+奥地利	1067106.8291
+奥地利	1004617.2773
+奥地利	1376843
+奥地利	1336217
+奥地利	1254643
+白俄罗斯	127170.7
+白俄罗斯	130362.1182
+白俄罗斯	158294.7
+白俄罗斯	145267.2
+白俄罗斯	184887.1625
+白俄罗斯	175972.2
+白俄罗斯	152536.2
+白俄罗斯	144874.6
+白俄罗斯	171264.3
+白俄罗斯	271392.8993
+白俄罗斯	300192.4578
+白俄罗斯	382010
+白俄罗斯	505373
+白俄罗斯	844174
+保加利亚	98390.6
+保加利亚	146489.7447
+保加利亚	189346.1
+保加利亚	207372.7
+保加利亚	216292.1652
+保加利亚	179156.6
+保加利亚	164664.4
+保加利亚	213823
+保加利亚	258668.4
+保加利亚	271892.4657
+保加利亚	291807.1252
+保加利亚	411076
+保加利亚	411760
+保加利亚	422074
+波兰	1113491.4
+波兰	1298752.4312
+波兰	1438336
+波兰	1480667.2
+波兰	1719153.763
+波兰	1708682.3
+波兰	1763774.1
+波兰	2122655.8
+波兰	2452158
+波兰	2782160.1973
+波兰	3105117.9225
+波兰	4211970
+波兰	4298434
+波兰	4202222
+捷克	884953.1
+捷克	998733.3786
+捷克	873003.3
+捷克	945271.8
+捷克	1097958.8118
+捷克	1100658.5
+捷克	1101329.2
+捷克	1248867.6
+捷克	1630863
+捷克	1760125.3944
+捷克	1887122.5677
+捷克	2116142
+捷克	2363077
+捷克	2151321
+葡萄牙	326775.8
+葡萄牙	396322.6161
+葡萄牙	401559.4
+葡萄牙	390632.5
+葡萄牙	480036.4696
+葡萄牙	435646.6
+葡萄牙	558710.1
+葡萄牙	558439.4
+葡萄牙	599925.4
+葡萄牙	668875.2834
+葡萄牙	695308.4036
+葡萄牙	880780
+葡萄牙	900356
+葡萄牙	870396
+乌克兰	772703.4
+乌克兰	1040954.7797
+乌克兰	1035475
+乌克兰	1112209.2
+乌克兰	858977.239
+乌克兰	707151.1
+乌克兰	671102.4
+乌克兰	738028.7
+乌克兰	966353.2
+乌克兰	1190858.4004
+乌克兰	1487976.2749
+乌克兰	1917889
+乌克兰	764391
+乌克兰	681163
+希腊	434967.5
+希腊	430297.5191
+希腊	402046.7
+希腊	365224.3
+希腊	453127.4659
+希腊	395048.1
+希腊	448579.6
+希腊	518142.1
+希腊	706082.8
+希腊	846536.9961
+希腊	781048.4557
+希腊	1215287
+希腊	1369951
+希腊	1359499
+意大利	4514624
+意大利	5126947.112
+意大利	4172098.8
+意大利	4332644.7
+意大利	4803830.028
+意大利	4465423.5
+意大利	4310153.8
+意大利	4969790.4
+意大利	5423380.4
+意大利	5494413.3008
+意大利	5516426.0879
+意大利	7395294
+意大利	7743046
+意大利	7174513`;
 
-    window.addEventListener('resize', myChart.resize);
+    // 解析数据
+    function parseData(rawData) {
+      const lines = rawData.split('\n');
+      const dataByCountry = {};
+      const years = Array.from({length: 14}, (_, i) => 2010 + i);
+      
+      lines.forEach(line => {
+        const parts = line.split('\t').filter(part => part.trim() !== '');
+        if (parts.length >= 2) {
+          const country = parts[0].trim();
+          const value = parseFloat(parts[1].replace(/,/g, ''));
+          
+          if (!dataByCountry[country]) {
+            dataByCountry[country] = [];
+          }
+          
+          dataByCountry[country].push(value);
+        }
+      });
+      
+      // 确保每个国家的数据长度为14 (2010-2023)
+      Object.keys(dataByCountry).forEach(country => {
+        if (dataByCountry[country].length < 14) {
+          const missingYears = 14 - dataByCountry[country].length;
+          dataByCountry[country] = [...Array(missingYears).fill(null), ...dataByCountry[country]];
+        }
+      });
+      
+      return { dataByCountry, years };
+    }
+    
+    // 格式化数字为带两位小数的字符串
+    function formatNumber(num) {
+      if (num === null || isNaN(num)) return 'N/A';
+      return num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+    
+    // 格式化数字为亿美元
+    function formatToBillion(num) {
+      if (num === null || isNaN(num)) return 'N/A';
+      return (num / 10000).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+    
+    // 计算增长率
+    function calculateGrowth(start, end) {
+      if (start === null || end === null || start === 0) return 'N/A';
+      const growth = ((end - start) / start) * 100;
+      return growth.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '%';
+    }
+    
+    // 准备图表数据
+    const { dataByCountry, years } = parseData(rawData);
+    
+    // 主要图表
+    const tradeChart = echarts.init(document.getElementById('tradeChart'));
+    
+    // 国家颜色映射
+    const countryColors = {
+      '奥地利': '#3b82f6',
+      '白俄罗斯': '#10b981',
+      '保加利亚': '#8b5cf6',
+      '波兰': '#ec4899',
+      '捷克': '#f59e0b',
+      '葡萄牙': '#06b6d4',
+      '乌克兰': '#ef4444',
+      '希腊': '#6366f1',
+      '意大利': '#f97316'
+    };
+    
+    // 创建系列
+    const seriesList = [];
+    Object.keys(dataByCountry).forEach(country => {
+      seriesList.push({
+        type: 'line',
+        name: country,
+        data: dataByCountry[country],
+        showSymbol: false,
+        emphasis: {
+          focus: 'series'
+        },
+        encode: {
+          x: '年份',
+          y: '进出口总额(万美元)'
+        },
+        lineStyle: {
+          width: 2,
+          color: countryColors[country] || '#3b82f6'
+        },
+        areaStyle: {
+          opacity: 0.1
+        },
+        endLabel: {
+          show: true,
+          formatter: function (params) {
+            return `${country}: ${formatToBillion(params.value)}亿美元`;
+          },
+          color: countryColors[country] || '#3b82f6',
+          fontWeight: 'bold'
+        },
+        labelLayout: {
+          moveOverlap: 'shiftY'
+        }
+      });
+    });
+    
+    // 主要图表配置
+    const mainOption = {
+      animationDuration: 2000,
+      title: {
+        text: '2010-2023年中国与新亚欧大陆桥国家进出口总额趋势',
+        left: 'center',
+        textStyle: {
+          fontSize: 18,
+          fontWeight: 'normal'
+        }
+      },
+      tooltip: {
+        order: 'valueDesc',
+        trigger: 'axis',
+        axisPointer: {
+          type: 'cross',
+          crossStyle: {
+            color: '#999'
+          }
+        },
+        formatter: function (params) {
+          let result = `<div style="font-weight: bold;">${years[params[0].dataIndex]}年</div>`;
+          params.forEach(param => {
+            result += `
+              <div style="display: flex; align-items: center; margin-top: 4px;">
+                <span style="display: inline-block; width: 10px; height: 10px; border-radius: 50%; background-color: ${param.color}; margin-right: 6px;"></span>
+                <span>${param.seriesName}: ${formatToBillion(param.value)}亿美元</span>
+              </div>
+            `;
+          });
+          return result;
+        }
+      },
+      legend: {
+        type: 'scroll',
+        orient: 'horizontal',
+        bottom: '0%',
+        left: 'center',
+        pageButtonItemGap: 10,
+        pageButtonPosition: 'end',
+        itemWidth: 12,
+        itemHeight: 12,
+        itemGap: 15,
+        data: Object.keys(dataByCountry)
+      },
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '15%',
+        top: '5%',
+        containLabel: true
+      },
+      xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: years,
+        name: '年份',
+        nameLocation: 'middle',
+        nameGap: 25,
+        axisLine: {
+          lineStyle: {
+            color: '#94a3b8'
+          }
+        },
+        axisTick: {
+          show: true
+        },
+        axisLabel: {
+          interval: 0,
+          rotate: 45
+        }
+      },
+      yAxis: {
+        type: 'value',
+        name: '进出口总额(万美元)',
+        nameLocation: 'middle',
+        nameGap: 40,
+        axisLine: {
+          lineStyle: {
+            color: '#94a3b8'
+          }
+        },
+        splitLine: {
+          lineStyle: {
+            color: '#e2e8f0'
+          }
+        },
+        axisLabel: {
+          formatter: function (value) {
+            if (value >= 10000) {
+              return (value / 10000) + '亿';
+            }
+            return value;
+          }
+        }
+      },
+      series: seriesList
+    };
+    
+    // 设置主要图表
+    tradeChart.setOption(mainOption);
+    
+    // 创建迷你图表
+    function createMiniChart(elementId, country, color) {
+      const chart = echarts.init(document.getElementById(elementId));
+      const option = {
+        grid: {
+          left: 0,
+          right: 0,
+          top: 0,
+          bottom: 0
+        },
+        xAxis: {
+          show: false
+        },
+        yAxis: {
+          show: false
+        },
+        series: [{
+          type: 'line',
+          data: dataByCountry[country],
+          showSymbol: false,
+          lineStyle: {
+            width: 2,
+            color: color
+          },
+          areaStyle: {
+            opacity: 0.1,
+            color: color
+          }
+        }]
+      };
+      chart.setOption(option);
+      return chart;
+    }
+    
+    // 创建迷你图表
+    createMiniChart('austriaChart', '奥地利', '#3b82f6');
+    createMiniChart('belarusChart', '白俄罗斯', '#10b981');
+    createMiniChart('polandChart', '波兰', '#ec4899');
+    createMiniChart('italyChart', '意大利', '#f97316');
+    
+    // 生成数据表格
+    const tableBody = document.getElementById('data-table');
+    Object.keys(dataByCountry).forEach(country => {
+      const row = document.createElement('tr');
+      row.className = 'hover:bg-gray-50 transition';
+      
+      const data = dataByCountry[country];
+      const startValue = data[0];
+      const value2015 = data[5];
+      const value2020 = data[10];
+      const endValue = data[13];
+      
+      row.innerHTML = `
+        <td class="px-6 py-4 whitespace-nowrap">
+          <div class="flex items-center">
+            <div class="w-3 h-3 rounded-full bg-${countryColors[country]?.replace('#', '') || 'blue-500'} mr-2"></div>
+            <span class="font-medium text-gray-900">${country}</span>
+          </div>
+        </td>
+        <td class="px-6 py-4 whitespace-nowrap">${formatToBillion(startValue)}亿</td>
+        <td class="px-6 py-4 whitespace-nowrap">${formatToBillion(value2015)}亿</td>
+        <td class="px-6 py-4 whitespace-nowrap">${formatToBillion(value2020)}亿</td>
+        <td class="px-6 py-4 whitespace-nowrap">${formatToBillion(endValue)}亿</td>
+        <td class="px-6 py-4 whitespace-nowrap ${endValue > startValue ? 'text-green-600' : 'text-red-600'}">
+          ${calculateGrowth(startValue, endValue)}
+        </td>
+      `;
+      
+      tableBody.appendChild(row);
+    });
+    
+    // 筛选下拉菜单
+    const filterButton = document.getElementById('btn-filter');
+    const filterDropdown = document.getElementById('filter-dropdown');
+    const countryFilters = document.getElementById('country-filters');
+    const applyFilterButton = document.getElementById('apply-filter');
+    const showAllButton = document.getElementById('btn-all');
+    
+    // 创建国家筛选选项
+    Object.keys(dataByCountry).forEach(country => {
+      const div = document.createElement('div');
+      div.className = 'flex items-center';
+      div.innerHTML = `
+        <input type="checkbox" id="filter-${country}" name="${country}" checked class="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary">
+        <label for="filter-${country}" class="ml-2 text-sm text-gray-700">${country}</label>
+      `;
+      countryFilters.appendChild(div);
+    });
+    
+    // 切换筛选下拉菜单显示/隐藏
+    filterButton.addEventListener('click', () => {
+      filterDropdown.classList.toggle('hidden');
+    });
+    
+    // 点击其他地方关闭下拉菜单
+    document.addEventListener('click', (e) => {
+      if (!filterButton.contains(e.target) && !filterDropdown.contains(e.target)) {
+        filterDropdown.classList.add('hidden');
+      }
+    });
+    
+    // 应用筛选
+    applyFilterButton.addEventListener('click', () => {
+      const selectedCountries = [];
+      Object.keys(dataByCountry).forEach(country => {
+        const checkbox = document.getElementById(`filter-${country}`);
+        if (checkbox.checked) {
+          selectedCountries.push(country);
+        }
+      });
+      
+      updateChart(selectedCountries);
+      filterDropdown.classList.add('hidden');
+    });
+    
+    // 显示全部国家
+    showAllButton.addEventListener('click', () => {
+      const checkboxes = document.querySelectorAll('#country-filters input[type="checkbox"]');
+      checkboxes.forEach(checkbox => {
+        checkbox.checked = true;
+      });
+      updateChart(Object.keys(dataByCountry));
+    });
+    
+    // 更新图表
+    function updateChart(countries) {
+      const newSeries = seriesList.filter(series => countries.includes(series.name));
+      const newOption = {
+        series: newSeries,
+        legend: {
+          data: countries
+        }
+      };
+      tradeChart.setOption(newOption);
+    }
+    
+    // 响应式处理
+    window.addEventListener('resize', () => {
+      tradeChart.resize();
+      createMiniChart('austriaChart', '奥地利', '#3b82f6');
+      createMiniChart('belarusChart', '白俄罗斯', '#10b981');
+      createMiniChart('polandChart', '波兰', '#ec4899');
+      createMiniChart('italyChart', '意大利', '#f97316');
+    });
   </script>
 </body>
-</html>
+</html>  
