@@ -38,10 +38,13 @@
       .hover-scale:hover {
         transform: scale(1.02);
       }
+      .transparent-bg {
+        background-color: rgba(255, 255, 255, 0.8);
+      }
     }
   </style>
 </head>
-<body class="bg-gray-50 font-sans">
+<body class="bg-transparent font-sans">
   <div class="container mx-auto px-4 py-8">
     <header class="text-center mb-10">
       <h1 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold text-gray-800 mb-4">
@@ -52,7 +55,7 @@
       </p>
     </header>
     
-    <div class="bg-white rounded-xl p-6 card-shadow hover-scale mb-8">
+    <div class="transparent-bg rounded-xl p-6 card-shadow hover-scale mb-8">
       <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
         <div>
           <h2 class="text-xl font-semibold text-gray-800">进出口总额趋势图</h2>
@@ -88,7 +91,7 @@
     
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
       <!-- 奥地利卡片 -->
-      <div class="bg-white rounded-xl p-6 card-shadow hover-scale">
+      <div class="transparent-bg rounded-xl p-6 card-shadow hover-scale">
         <div class="flex justify-between items-start mb-4">
           <div>
             <h3 class="font-semibold text-gray-800">奥地利</h3>
@@ -102,7 +105,7 @@
       </div>
       
       <!-- 白俄罗斯卡片 -->
-      <div class="bg-white rounded-xl p-6 card-shadow hover-scale">
+      <div class="transparent-bg rounded-xl p-6 card-shadow hover-scale">
         <div class="flex justify-between items-start mb-4">
           <div>
             <h3 class="font-semibold text-gray-800">白俄罗斯</h3>
@@ -116,7 +119,7 @@
       </div>
       
       <!-- 波兰卡片 -->
-      <div class="bg-white rounded-xl p-6 card-shadow hover-scale">
+      <div class="transparent-bg rounded-xl p-6 card-shadow hover-scale">
         <div class="flex justify-between items-start mb-4">
           <div>
             <h3 class="font-semibold text-gray-800">波兰</h3>
@@ -130,7 +133,7 @@
       </div>
       
       <!-- 意大利卡片 -->
-      <div class="bg-white rounded-xl p-6 card-shadow hover-scale">
+      <div class="transparent-bg rounded-xl p-6 card-shadow hover-scale">
         <div class="flex justify-between items-start mb-4">
           <div>
             <h3 class="font-semibold text-gray-800">意大利</h3>
@@ -144,11 +147,11 @@
       </div>
     </div>
     
-    <div class="bg-white rounded-xl p-6 card-shadow hover-scale">
+    <div class="transparent-bg rounded-xl p-6 card-shadow hover-scale">
       <h2 class="text-xl font-semibold text-gray-800 mb-4">数据概览</h2>
       <div class="overflow-x-auto">
         <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
+          <thead class="bg-gray-50/80">
             <tr>
               <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">国家</th>
               <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">2010年</th>
@@ -158,7 +161,7 @@
               <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">增长(2010-2023)</th>
             </tr>
           </thead>
-          <tbody class="bg-white divide-y divide-gray-200" id="data-table">
+          <tbody class="bg-white/80 divide-y divide-gray-200">
             <!-- 数据表格内容将通过JavaScript动态生成 -->
           </tbody>
         </table>
@@ -550,7 +553,7 @@
     const tableBody = document.getElementById('data-table');
     Object.keys(dataByCountry).forEach(country => {
       const row = document.createElement('tr');
-      row.className = 'hover:bg-gray-50 transition';
+      row.className = 'hover:bg-gray-50/80 transition';
       
       const data = dataByCountry[country];
       const startValue = data[0];
@@ -617,7 +620,22 @@
         }
       });
       
-      updateChart(selectedCountries);
+      // 生成新的系列数据
+      const newSeries = seriesList.filter(series => selectedCountries.includes(series.name));
+      
+      // 更新图表选项
+      const newOption = {
+        series: newSeries,
+        legend: {
+          data: selectedCountries
+        }
+      };
+      
+      // 清空并重新设置图表选项，确保完全更新
+      tradeChart.clear();
+      tradeChart.setOption(mainOption);
+      tradeChart.setOption(newOption);
+      
       filterDropdown.classList.add('hidden');
     });
     
@@ -627,20 +645,11 @@
       checkboxes.forEach(checkbox => {
         checkbox.checked = true;
       });
-      updateChart(Object.keys(dataByCountry));
+      
+      // 清空并重新设置图表选项，显示所有国家
+      tradeChart.clear();
+      tradeChart.setOption(mainOption);
     });
-    
-    // 更新图表
-    function updateChart(countries) {
-      const newSeries = seriesList.filter(series => countries.includes(series.name));
-      const newOption = {
-        series: newSeries,
-        legend: {
-          data: countries
-        }
-      };
-      tradeChart.setOption(newOption);
-    }
     
     // 响应式处理
     window.addEventListener('resize', () => {
